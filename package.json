@@ -1,14 +1,16 @@
 {
-  "name": "centerconsultaapi",
-  "version": "1.0.0",
+  "name": "centerconsultasapi",
+  "version": "1.9.8",
+  "type": "module",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "derxankvs",
   "license": "ISC",
-  "description": "",
+  "description": "API de consultas brasileira — CPF, CNPJ, Placa, CEP, Score, etc.",
   "dependencies": {
     "express": "^4.18.2",
     "node-fetch": "^3.3.2",

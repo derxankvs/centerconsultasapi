@@ -12,7 +12,6 @@ import { consultarCepPlus } from './consultas/cepplus.js';
 import { consultarEmail } from './consultas/email.js';
 import { consultarMae } from './consultas/mae.js';
 import { consultarNome } from './consultas/nome.js';
-import { consultarScore } from './consultas/score.js';
 import { consultarChassi } from './consultas/chassi.js';
 import { consultarMotor } from './consultas/motor.js';
 import { consultarRenavam } from './consultas/renavam.js';
