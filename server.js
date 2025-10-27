@@ -4,9 +4,8 @@ import { consultarPlaca } from './consultas/placa.js';
 import { consultarCNPJ } from './consultas/cnpj.js';
 import { consultarCEP } from './consultas/cep.js';
 import { consultarCPF } from './consultas/cpf.js';
-import { consultarIP } from './consultas/ip.js';
-import { consultarCPF2 } from './consultas/cpf2.js';  
 import { consultarCPF3 } from './consultas/cpf3.js';
+import { consultarIP } from './consultas/ip.js';
 import { consultarRenda } from './consultas/renda.js';
 import { consultarCepPlus } from './consultas/cepplus.js';
 import { consultarEmail } from './consultas/email.js';
@@ -83,10 +82,9 @@ app.get('/cpf/:cpf/json', async (req, res) => {
   res.json(consulta);
 });
 
-// 👨‍💼 Consulta de CPF V2
-app.get('/cpf2/:cpf/json', async (req, res) => {
-  const { cpf2 } = req.params;
-  const consulta = await consultarCPF(cpf);
+app.get('/cpf3/:cpf/json', async (req, res) => {
+  const { cpf } = req.params;
+  const consulta = await consultarCPF3(cpf);
   res.json(consulta);
 });
 
@@ -230,32 +228,91 @@ app.get('/telefone/:telefone/json', async (req, res) => {
 // -----------------------------
 app.get('/', (req, res) => {
   res.send(`
-    <h2>🔍 API de Consultas</h2>
-    <p>Rotas disponíveis (use /{valor}/json):</p>
+  <html>
+  <head>
+    <title>Center Consultas API 🔍</title>
+    <meta charset="UTF-8">
+    <style>
+      body {
+        background-color: #0d1117;
+        color: #e6edf3;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        margin: 0;
+        padding: 40px;
+      }
+      h1, h2 {
+        color: #00ff99;
+        text-align: center;
+      }
+      p {
+        text-align: center;
+        color: #aaa;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        max-width: 600px;
+        margin: 40px auto;
+      }
+      li {
+        background: #161b22;
+        padding: 12px 18px;
+        margin: 6px 0;
+        border-radius: 10px;
+        transition: 0.3s;
+      }
+      li:hover {
+        background: #00ff9966;
+        transform: translateX(4px);
+      }
+      a {
+        color: #00ff99;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      footer {
+        text-align: center;
+        color: #555;
+        margin-top: 40px;
+        font-size: 14px;
+      }
+      .highlight {
+        color: #ff3366;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧠 Center Consultas API</h1>
+    <h2>🔍 Rotas Disponíveis</h2>
+    <p>Use o formato <code>/{valor}/json</code> para consultar</p>
+
     <ul>
-      <li>/ip/{ip}/json</li>
-      <li>/cpf/{cpf}/json</li>
-      <li>/cpf2/{cpf}/json</li>
-      <li>/cpf3/{cpf}/json</li>
-      <li>/placa/{placa}/json</li>
-      <li>/cnpj/{cnpj}/json</li>
-      <li>/cep/{cep}/json</li>
-      <li>/nome/{nome}/json</li>
-      <li>/email/{email}/json</li>
-      <li>/score/{ident}/json</li>
-      <li>/renda/{ident}/json</li>
-      <li>/score/{ident}/json</li>
-      <li>/chassi/{chassi}/json</li>
-      <li>/motor/{motor}/json</li>
-      <li>/renavam/{renavam}/json</li>
-      <li>/rg/{rg}/json</li>
-      <li>/telefone/{telefone}/json</li>
-      <li>/card/{credit|debit}/gen/{n}</li>
-      <li>/renda/{param}/json</li>
-      <li>/valid/{number}/json</li>
-      <li>/cepplus/{cep}/json</li>
-      </ul>
-    <p>Exemplo: <a href="/cep/01001000/json">/cep/01001000/json</a></p>
+      <li>🌐 <a href="/ip/8.8.8.8/json">/ip/{ip}/json</a></li>
+      <li>🧾 <a href="/cpf/00000000000/json"> /cpf3/{cpf}/json ou /cpf/{cpf}/json</a></li>
+      <li>🚗 <a href="/placa/ABC1234/json">/placa/{placa}/json</a></li>
+      <li>🏢 <a href="/cnpj/00000000000191/json">/cnpj/{cnpj}/json</a></li>
+      <li>📍 <a href="/cep/01001000/json">/cep/{cep}/json</a></li>
+      <li>👤 <a href="/nome/kaio/json">/nome/{nome}/json</a></li>
+      <li>📧 <a href="/email/teste@gmail.com/json">/email/{email}/json</a></li>
+      <li>📞 <a href="/telefone/5599999999999/json">/telefone/{telefone}/json</a></li>
+      <li>🪪 <a href="/rg/12345678/json">/rg/{rg}/json</a></li>
+      <li>⚙️ <a href="/motor/12345/json">/motor/{motor}/json</a></li>
+      <li>🚘 <a href="/renavam/123456789/json">/renavam/{renavam}/json</a></li>
+      <li>💳 <a href="/card/credit/gen/10">/card/{credit|debit}/gen/{n}</a></li>
+      <li>💰 <a href="/renda/12345678900/json">/renda/{ident}/json</a></li>
+      <li>📊 <a href="/score/12345678900/json">/score/{ident}/json</a></li>
+      <li>🏠 <a href="/cepplus/01001000/json">/cepplus/{cep}/json</a></li>
+      <li>🏍️ <a href="/chassi/{chassi}/json">/chassi/numerodochassi/json</a></li>
+      <li>💳 <a href="/valid/{number}/json">/valid/numerodocartao/json</a></li>
+    </ul>
+
+    <footer>
+      ⚙️ API desenvolvida por <span class="highlight">@kaio.kvs</span> • <b>Center Consultas</b>  
+    </footer>
+  </body>
+  </html>
   `);
 });
 
