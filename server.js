@@ -9,12 +9,9 @@ import { consultarCPF2 } from './consultas/cpf2.js';
 import { consultarCPF3 } from './consultas/cpf3.js';
 import { consultarRenda } from './consultas/renda.js';
 import { consultarCepPlus } from './consultas/cepplus.js';
-
-// novos imports
 import { consultarEmail } from './consultas/email.js';
 import { consultarMae } from './consultas/mae.js';
 import { consultarNome } from './consultas/nome.js';
-import { consultarRenda } from './consultas/renda.js';
 import { consultarScore } from './consultas/score.js';
 import { consultarChassi } from './consultas/chassi.js';
 import { consultarMotor } from './consultas/motor.js';
