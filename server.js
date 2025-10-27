@@ -19,7 +19,51 @@ import { consultarTelefone } from './consultas/telefone.js';
 import { gerarCartoes } from './consultas/card.js';
 import { validarCartao } from './consultas/valid.js';
 import fetch from 'node-fetch';
+import express from 'express';
+import { createClient } from '@supabase/supabase-js';
+
 const app = express();
+app.use(express.json());
+
+// 🧠 Middleware global para registrar logs no Supabase
+app.use(async (req, res, next) => {
+  // Ignora a página inicial e arquivos estáticos
+  if (req.path === '/' || req.path.startsWith('/favicon')) return next();
+
+  // Intercepta a resposta original
+  const originalJson = res.json.bind(res);
+
+  res.json = async (body) => {
+    try {
+      // Salva log no Supabase
+      const tipo = req.path.split('/')[1] || 'desconhecido';
+      const dado = req.path.split('/')[2] || 'n/a';
+      const ip = req.headers['x-real-ip'] || req.ip;
+
+      await supabase.from('consultas_logs').insert([
+        {
+          tipo_consulta: tipo,
+          dado_consultado: dado,
+          ip_usuario: ip,
+          sucesso: body?.status === "success" || !body?.error,
+          data_hora: new Date().toISOString()
+        }
+      ]);
+    } catch (err) {
+      console.error('Erro ao salvar log:', err.message);
+    }
+
+    return originalJson(body);
+  };
+
+  next();
+});
+
+// 🔗 Conexão com Supabase
+const SUPABASE_URL = 'https://uvyylqkxkniyquiwuvjr.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV2eXlscWt4a25peXF1aXd1dmpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1NTkxNDQsImV4cCI6MjA3NzEzNTE0NH0.9sn9qsNF1bCdWEqkyiJwjfpI2AM2DTva04t_WEJsjXI';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const PORT = process.env.PORT || 3000;
 
 // middleware (opcional, útil para receber JSON em POSTs futuros)
