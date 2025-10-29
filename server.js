@@ -21,6 +21,18 @@ import { consultarTelefone } from './consultas/telefone.js';
 import { gerarCartoes } from './consultas/card.js';
 import { validarCartao } from './consultas/valid.js';
 
+// No início do arquivo principal da API
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 // --- Configuração principal ---
 const app = express();
 app.use(express.json());
