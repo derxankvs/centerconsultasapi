@@ -115,7 +115,7 @@ app.get('/score/:ident/json', async (req, res) => {
 // -----------------------------
 // Página inicial
 // -----------------------------
-app.get('/', (req, res) => {
+app.get('/index', (req, res) => {
   res.send(`
   <html>
   <head><meta charset="UTF-8"><title>Center Consultas API</title></head>
